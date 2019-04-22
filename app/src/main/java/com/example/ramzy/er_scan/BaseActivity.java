@@ -78,12 +78,12 @@ public class BaseActivity extends AppCompatActivity
             startActivity(i);
             
         } else if (id == R.id.add_er) {
-            //Intent i = new Intent(BaseActivity.this, HomeActivity.class);
-            //startActivity(i);
+            Intent i = new Intent(BaseActivity.this, AddExpenseReport.class);
+            startActivity(i);
             
         } else if (id == R.id.er_history) {
-            //Intent i = new Intent(BaseActivity.this, HomeActivity.class);
-            //startActivity(i);
+            Intent i = new Intent(BaseActivity.this, HistoryActivity.class);
+            startActivity(i);
             
         } else if (id == R.id.bug_reporting) {
             Intent i = new Intent(BaseActivity.this, BugReportingActivity.class);
