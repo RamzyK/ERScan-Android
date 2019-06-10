@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/login_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,34 +17,37 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
+            android:id="@+id/user_id_tv"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_marginTop="40dp"
-            android:text="ID: 123456789AZERTYUIO"
+            android:hint="@string/id_tv_hint"
             android:textAlignment="center"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/user_firstname_tv"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_marginTop="20dp"
-            android:text="First name: Wara"
+            android:hint="@string/user_firstname_tv_hint"
             android:textAlignment="center"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/user_lastname_tv"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_marginTop="20dp"
-            android:text="First name: Booooooo"
+            android:text="@string/userLastname_tv_hint"
             android:textAlignment="center"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:textStyle="bold"/>
@@ -66,11 +70,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Notification"
-                    android:textSize="18dp"
+                    android:text="@string/notification_switch_button_text"
+                    android:textSize="18sp"
                     android:layout_weight="1"/>
 
                 <Switch
+                    android:id="@+id/notification_switch_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
@@ -89,11 +94,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Position"
-                    android:textSize="18dp"
+                    android:text="@string/position_switch_button_text"
+                    android:textSize="19sp"
                     android:layout_weight="1"/>
 
                 <Switch
+                    android:id="@+id/position_switch_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>

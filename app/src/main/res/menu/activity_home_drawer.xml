@@ -7,19 +7,19 @@
         <item
             android:id="@+id/scan_er"
             android:icon="@drawable/scan_icon"
-            android:title="Scan" />
+            android:title="@string/scan_menu_drawer" />
         <item
             android:id="@+id/add_er"
             android:icon="@drawable/add_er"
-            android:title="Add ER" />
+            android:title="@string/add_er_menu_drawer" />
         <item
             android:id="@+id/er_history"
             android:icon="@drawable/er_history"
-            android:title="History" />
+            android:title="@string/history_menu_drawer" />
         <item
             android:id="@+id/bug_reporting"
             android:icon="@drawable/bug"
-            android:title="Report Bug" />
+            android:title="@string/report_bug_menu_drawer" />
     </group>
 
     <item android:title="Communicate">
@@ -27,11 +27,11 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/share_menu_drawer" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/logout_btn"
+                android:icon="@drawable/logout"
+                android:title="@string/logout_menu_drawer" />
         </menu>
     </item>
 

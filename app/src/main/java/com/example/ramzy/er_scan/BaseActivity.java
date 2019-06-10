@@ -1,6 +1,9 @@
 package com.example.ramzy.er_scan;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,13 +19,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.ramzy.er_scan.preferences.SharedPrefs;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    protected SharedPreferences pref;
+
+    @Nullable
+    @BindView(R.id.user_firstname_tv)
+    TextView userFirstname;
+
+    @Nullable
+    @BindView(R.id.user_lastname_tv)
+    TextView userLastName;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref = SharedPrefs.getInstance(this);
     }
 
     @Override
@@ -31,15 +52,33 @@ public class BaseActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+
             super.onBackPressed();
         }
+    }
+
+    protected void setToolBar(int toolbarId, int drawerId, int navViewId, Activity ctx){
+        Toolbar toolbar = findViewById(toolbarId);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer =  findViewById(drawerId);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(navViewId);
+        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) ctx);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+        ButterKnife.bind(this);
         ImageView image = findViewById(R.id.imageView);
+        userFirstname.setText(pref.getString("firstname", "NaN"));
+        userLastName.setText(pref.getString("lastname", "NaN"));
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,8 +117,8 @@ public class BaseActivity extends AppCompatActivity
             startActivity(i);
             
         } else if (id == R.id.add_er) {
-            //Intent i = new Intent(BaseActivity.this, HomeActivity.class);
-            //startActivity(i);
+            Intent i = new Intent(BaseActivity.this, ScanEr.class);
+            startActivity(i);
             
         } else if (id == R.id.er_history) {
             //Intent i = new Intent(BaseActivity.this, HomeActivity.class);
@@ -90,15 +129,17 @@ public class BaseActivity extends AppCompatActivity
             startActivity(i);
 
         } else if (id == R.id.nav_share) {
-            //Intent i = new Intent(BaseActivity.this, HomeActivity.class);
-            //startActivity(i);
             Toast.makeText(this, "Thanks for sharing :)", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.logout_btn) {
+            pref.edit().clear().apply();
+            Intent loginPage = new Intent(this, SplashScreenActivity.class);
+            startActivity(loginPage);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

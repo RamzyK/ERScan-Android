@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+
+project.ext {
+    butterKnifeVersion = "8.8.1"
+}
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -27,4 +32,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // Stepper
+    implementation 'com.shuhart.stepview:stepview:1.5.0'
+
+    // ButterKnife
+    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+
+    // Retrofit
+    implementation 'com.google.code.gson:gson:2.8.2' // for string to class conversion. Not Compulsory
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'// compulsory
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0' //for retrofit conversion
 }

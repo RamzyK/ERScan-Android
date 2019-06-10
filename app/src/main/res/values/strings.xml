@@ -6,4 +6,43 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="back_stepper_button">Back</string>
+    <string name="next_stepper_button">Next</string>
+    <string name="expense_report_price">Price</string>
+    <string name="expense_report_vat">VAT</string>
+    <string name="expense_report_place">Place</string>
+    <string name="submit_expense_valid_button">Submit ER</string>
+    <string name="message_submitted_message">Expense successfully submitted</string>
+    <string name="email_edittext_hint">Email</string>
+    <string name="password_edittext_hint">Password</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="error_login_toast_text">Credential are wrong, please try again</string>
+    <string name="first_name_tv_hint">First name</string>
+    <string name="last_name_tv_hint">Last name</string>
+    <string name="id_tv_hint">ID: 123456789AZERTYUIO</string>
+    <string name="user_firstname_tv_hint">First name: Wara</string>
+    <string name="userLastname_tv_hint">First name: Booooooo</string>
+    <string name="notification_switch_button_text">Notification</string>
+    <string name="position_switch_button_text">Position</string>
+    <string name="location_popup_title">Location needed</string>
+    <string name="location_permission_explanation">Your location is needed only to show your ER\'s on the map</string>
+    <string name="ok_text">Ok</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="notification_popup_title">Notification permission needed</string>
+    <string name="notification_permission_explanation">Allow us to send notifications</string>
+    <string name="bug_edittext_hint">Description of the bug...</string>
+    <string name="bug_type_hint_tv">Type1</string>
+    <string name="logout_menu_drawer">Logout</string>
+    <string name="report_bug_menu_drawer">Report Bug</string>
+    <string name="history_menu_drawer">History</string>
+    <string name="add_er_menu_drawer">Add ER</string>
+    <string name="scan_menu_drawer">Scan</string>
+    <string name="share_menu_drawer">Share</string>
+
+    <string-array name="but_types">
+        <item>None</item>
+        <item>Login</item>
+        <item>Sending ER</item>
+        <item>History map</item>
+    </string-array>
 </resources>
