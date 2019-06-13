@@ -1,4 +1,4 @@
-package com.example.ramzy.er_scan;
+package com.example.ramzy.er_scan.ui.bugs;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ramzy.er_scan.BaseActivity;
+import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.dto.BugDTO;
 import com.example.ramzy.er_scan.preferences.SharedPrefs;
 import com.example.ramzy.er_scan.providers.NetworkProvider;

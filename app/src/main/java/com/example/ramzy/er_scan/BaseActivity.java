@@ -1,15 +1,11 @@
 package com.example.ramzy.er_scan;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ramzy.er_scan.preferences.SharedPrefs;
+import com.example.ramzy.er_scan.ui.bugs.BugReportingActivity;
+import com.example.ramzy.er_scan.ui.expense_reports.ScanEr;
+import com.example.ramzy.er_scan.ui.user_account.AccountParamsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

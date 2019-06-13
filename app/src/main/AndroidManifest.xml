@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
         <activity
-            android:name=".ScanEr"
+            android:name=".ui.expense_reports.ScanEr"
             android:label="New expense report"
             android:theme="@style/AppTheme.NoActionBar"/>
 
@@ -36,12 +36,12 @@
             android:label="Home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".BugReportingActivity"
+            android:name=".ui.bugs.BugReportingActivity"
             android:label="Bug reporting"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".AccountParamsActivity"
+            android:name=".ui.user_account.AccountParamsActivity"
             android:label="Account"/>
     </application>
 

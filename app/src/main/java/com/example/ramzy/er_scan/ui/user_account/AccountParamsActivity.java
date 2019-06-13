@@ -1,11 +1,10 @@
-package com.example.ramzy.er_scan;
+package com.example.ramzy.er_scan.ui.user_account;
 
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +16,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ramzy.er_scan.HomeActivity;
+import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.preferences.SharedPrefs;
 
 import butterknife.BindView;
