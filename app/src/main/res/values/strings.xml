@@ -45,4 +45,6 @@
         <item>Sending ER</item>
         <item>History map</item>
     </string-array>
+    <string name="title_activity_history_map_user">Map</string>
+    <string name="history_fragment_toolbar_title">Your personal history</string>
 </resources>

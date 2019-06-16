@@ -22,6 +22,7 @@ import com.example.ramzy.er_scan.preferences.SharedPrefs;
 import com.example.ramzy.er_scan.ui.bugs.BugReportingActivity;
 import com.example.ramzy.er_scan.ui.expense_reports.ScanEr;
 import com.example.ramzy.er_scan.ui.user_account.AccountParamsActivity;
+import com.example.ramzy.er_scan.ui.user_history_er.HistoryMapUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,7 +106,7 @@ public class BaseActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -120,8 +121,8 @@ public class BaseActivity extends AppCompatActivity
             startActivity(i);
             
         } else if (id == R.id.er_history) {
-            //Intent i = new Intent(BaseActivity.this, HomeActivity.class);
-            //startActivity(i);
+            Intent i = new Intent(BaseActivity.this, HistoryMapUser.class);
+            startActivity(i);
             
         } else if (id == R.id.bug_reporting) {
             Intent i = new Intent(BaseActivity.this, BugReportingActivity.class);

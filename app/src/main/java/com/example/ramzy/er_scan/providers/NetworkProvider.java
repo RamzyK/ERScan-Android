@@ -2,6 +2,8 @@ package com.example.ramzy.er_scan.providers;
 
 
 
+import android.support.annotation.NonNull;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

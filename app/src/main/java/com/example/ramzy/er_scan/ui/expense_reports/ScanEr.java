@@ -1,15 +1,22 @@
 package com.example.ramzy.er_scan.ui.expense_reports;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +30,7 @@ import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.dto.ExpenseReportDTO;
 import com.example.ramzy.er_scan.providers.NetworkProvider;
 import com.example.ramzy.er_scan.services.ErService;
+import com.example.ramzy.er_scan.ui.user_history_er.HistoryMapUser;
 import com.shuhart.stepview.StepView;
 
 import java.io.ByteArrayOutputStream;
@@ -34,7 +42,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -44,9 +51,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
-
 public class ScanEr extends BaseActivity {
+    private int EXTERNAL_STORAGE_PERMISSION = 1;
+
     private Bitmap bitmap;
     private File destination = null;
     private InputStream inputStreamImg;
@@ -114,14 +121,64 @@ public class ScanEr extends BaseActivity {
     @OnClick(R.id.expense_report_image)
     public void chooseImage(){
         if(this.stepView.getCurrentStep() == 3){
-
-            showChoiceDialog();
+            askMediaPermission();
             submitErButton.setVisibility(View.VISIBLE);
-
-
         }else{
             Toast.makeText(this, "You cannot choose image step is not here yet", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.add_er_activity);
+        ButterKnife.bind(this);
+        this.setToolBar(R.id.adder_activity_toolbar,
+                R.id.drawer_layout,
+                R.id.nav_view_add_er_activity, this);
+        setStepper();
+        submitErButton.setVisibility(View.INVISIBLE);
+    }
+
+
+    private void askMediaPermission() {
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Media access needed")
+                        .setMessage("We need this permission to let you take a foto of your receive.")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(ScanEr.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                                                Manifest.permission.ACCESS_COARSE_LOCATION}, EXTERNAL_STORAGE_PERMISSION);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                onBackPressed();
+                            }
+                        })
+                        .create().show();
+            } else {
+                ActivityCompat.requestPermissions(ScanEr.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION}, EXTERNAL_STORAGE_PERMISSION);
+
+            }
+        } else {
+            Toast.makeText(ScanEr.this, "Position permission already granted",
+                    Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -147,6 +204,72 @@ public class ScanEr extends BaseActivity {
         });
         builder.show();
     }
+
+
+    public String getRealPathFromURI(Uri contentUri) {
+        String[] proj = {MediaStore.Audio.Media.DATA};
+        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+
+    private void sendEr(){
+        erService = NetworkProvider.getClient().create(ErService.class);
+
+        int price = Integer.valueOf(expense_price_et.getText().toString());
+        int vat = Integer.valueOf(expense_vat_et.getText().toString());
+        String address = expense_place_et.getText().toString();
+
+        ExpenseReportDTO newExpense = new ExpenseReportDTO(price, vat, address);
+        String token = pref.getString("token", "");
+
+        Call<Response<String>> erCall = erService.submitExpense(newExpense, token);
+        erCall.enqueue(new Callback<Response<String>>() {
+            @Override
+            public void onResponse(Call<Response<String>> call, Response<Response<String>> response) {
+                Snackbar.make(submitErButton,"Expense successfully submitted :)" , Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+
+            @Override
+            public void onFailure(Call<Response<String>> call, Throwable t) {
+            }
+        });
+    }
+
+    private void setStepper(){
+        stepView = findViewById(R.id.step_view);
+        stepView.getState()
+                .selectedTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+                .animationType(StepView.ANIMATION_CIRCLE)
+                .selectedCircleRadius(getResources().getDimensionPixelSize(R.dimen.dp14))
+                .selectedStepNumberColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .selectedCircleColor(ContextCompat.getColor(this, R.color.circle_background_color))
+                .steps(new ArrayList<String>() {{
+                    add("ER price");
+                    add("ER vat");
+                    add("ER place");
+                    add("Insert ER picture");
+                }})
+                .stepsNumber(4)
+                .animationDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                .stepLineWidth(getResources().getDimensionPixelSize(R.dimen.dp1))
+                .textSize(getResources().getDimensionPixelSize(R.dimen.sp14))
+                .stepNumberTextSize(getResources().getDimensionPixelSize(R.dimen.sp16))
+                .commit();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == EXTERNAL_STORAGE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showChoiceDialog();
+            }
+        }
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -199,95 +322,5 @@ public class ScanEr extends BaseActivity {
             }
         }
     }
-
-    public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = {MediaStore.Audio.Media.DATA};
-        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_er_activity);
-        ButterKnife.bind(this);
-        this.setToolBar(R.id.adder_activity_toolbar,
-                        R.id.drawer_layout,
-                        R.id.nav_view_add_er_activity, this);
-        setStepper();
-        submitErButton.setVisibility(View.INVISIBLE);
-    }
-
-
-    private void sendEr(){
-        erService = NetworkProvider.getClient().create(ErService.class);
-
-        int price = Integer.valueOf(expense_price_et.getText().toString());
-        int vat = Integer.valueOf(expense_vat_et.getText().toString());
-        String address = expense_place_et.getText().toString();
-
-        ExpenseReportDTO newExpense = new ExpenseReportDTO(price, vat, address);
-        String token = pref.getString("token", "");
-
-        Call<Response<String>> erCall = erService.submitExpense(newExpense, token);
-        erCall.enqueue(new Callback<Response<String>>() {
-            @Override
-            public void onResponse(Call<Response<String>> call, Response<Response<String>> response) {
-                Snackbar.make(submitErButton,"Expense successfully submitted :)" , Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-
-            @Override
-            public void onFailure(Call<Response<String>> call, Throwable t) {
-            }
-        });
-    }
-
-    private void setStepper(){
-        stepView = findViewById(R.id.step_view);
-        stepView.getState()
-                .selectedTextColor(ContextCompat.getColor(this, R.color.colorAccent))
-                .animationType(StepView.ANIMATION_CIRCLE)
-                .selectedCircleRadius(getResources().getDimensionPixelSize(R.dimen.dp14))
-                .selectedStepNumberColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                .selectedCircleColor(ContextCompat.getColor(this, R.color.circle_background_color))
-                .steps(new ArrayList<String>() {{
-                    add("ER price");
-                    add("ER vat");
-                    add("ER place");
-                    add("Insert ER picture");
-                }})
-                .stepsNumber(4)
-                .animationDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
-                .stepLineWidth(getResources().getDimensionPixelSize(R.dimen.dp1))
-                .textSize(getResources().getDimensionPixelSize(R.dimen.sp14))
-                .stepNumberTextSize(getResources().getDimensionPixelSize(R.dimen.sp16))
-                .commit();
-    }
-
-
-    /*protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch(requestCode) {
-            case 0:
-                if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    expense_image.setImageURI(selectedImage);
-                }
-
-                break;
-            case 1:
-                if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    expense_image.setImageURI(selectedImage);
-                }
-                break;
-        }
-    }*/
-
 
 }

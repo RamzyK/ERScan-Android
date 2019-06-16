@@ -73,7 +73,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             Intent stillLoggedIn = new Intent(SplashScreenActivity.this, HomeActivity.class);
             startActivity(stillLoggedIn);
         }
-
     }
 
     private void logUser(String email, String password) {
