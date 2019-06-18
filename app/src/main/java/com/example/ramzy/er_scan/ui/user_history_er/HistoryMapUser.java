@@ -1,14 +1,14 @@
 package com.example.ramzy.er_scan.ui.user_history_er;
 
 import android.Manifest;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -24,6 +24,7 @@ import com.example.ramzy.er_scan.dto.ExpenseReportResponseDTO;
 import com.example.ramzy.er_scan.preferences.SharedPrefs;
 import com.example.ramzy.er_scan.providers.NetworkProvider;
 import com.example.ramzy.er_scan.services.ErService;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -32,7 +33,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,14 +48,32 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
 
     private GoogleMap mMap;
     private ImageView back_btn;
-    private ErService erService;
+    private ErService er_service;
     protected SharedPreferences pref;
 
+    private ArrayList<ExpenseReportDTO> erL_list = new ArrayList<>();
+
+    @BindView(R.id.switch_to_list_display)
+    FloatingActionButton listDiplayButton;
+
+    @OnClick(R.id.switch_to_list_display)
+    public void listDisplay(){
+        Toast.makeText(this, "Eh merce", Toast.LENGTH_SHORT).show();
+        ExpenseReportDTO erdto = new ExpenseReportDTO(20, 12, "test", "");
+        Intent intent = new Intent(this, ErDetail.class);
+        intent.putExtra("er_list", erL_list);
+        intent.putExtra("myObject", erdto);
+        startActivity(intent);
+    }
+
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_map_user);
 
+        ButterKnife.bind(this);
+        listDiplayButton.setVisibility(View.INVISIBLE);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -93,9 +116,6 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
                         new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
 
             }
-        } else {
-            Toast.makeText(HistoryMapUser.this, "Position permission already granted",
-                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -103,9 +123,9 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
     private void getUserExpenses() {
         String token = pref.getString("token", "null");
         if (token != "null") {
-            erService = NetworkProvider.getClient().create(ErService.class);
+            er_service = NetworkProvider.getClient().create(ErService.class);
 
-            Call<ExpenseReportResponseDTO> erReponse = erService.getUserExpenseReports(token);
+            Call<ExpenseReportResponseDTO> erReponse = er_service.getUserExpenseReports(token);
             erReponse.enqueue(new Callback<ExpenseReportResponseDTO>() {
                 @Override
                 public void onResponse(Call<ExpenseReportResponseDTO> call, Response<ExpenseReportResponseDTO> response) {
@@ -131,6 +151,7 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
         Geocoder geocoder = new Geocoder(this);
         double longitude = 0.0;
         double latitude = 0.0;
+        int count = 0;
 
         for (ExpenseReportDTO er : address_list) {
             try {
@@ -145,7 +166,13 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            showPinsOnMap(er,longitude, latitude);
+
+            showPinsOnMap(er, longitude, latitude);
+            this.erL_list.add(er);
+            count++;
+            if(count == address_list.length){
+                listDiplayButton.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -168,32 +195,16 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        LatLng erLocation = new LatLng(46.603354, 1.888334);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(erLocation, 5));
         if (pref.getBoolean("firstTimeMapOpened", true)) {
             requestFineLocationPermission();
         } else {
-            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            getUserPosition(lm);
             getUserExpenses();
         }
     }
 
 
-    private void getUserPosition(LocationManager lm) {
-        if (ActivityCompat
-                .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.
-                checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-        LatLng erLocation = new LatLng(latitude, longitude);
-
-        mMap.addMarker(new MarkerOptions().position(erLocation)
-                .title("Employee's expense report"));
-    }
 
     @Override
     public void onClick(View v) {
@@ -213,8 +224,6 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 pref.edit().putBoolean("firstTimeMapOpened", false).apply();
-                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                getUserPosition(lm);
                 getUserExpenses();
             }
         }

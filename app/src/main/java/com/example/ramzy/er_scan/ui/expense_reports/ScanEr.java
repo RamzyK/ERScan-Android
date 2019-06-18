@@ -1,13 +1,11 @@
 package com.example.ramzy.er_scan.ui.expense_reports;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -17,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,9 +25,9 @@ import android.widget.Toast;
 import com.example.ramzy.er_scan.BaseActivity;
 import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.dto.ExpenseReportDTO;
+import com.example.ramzy.er_scan.dto.ImageDTO;
 import com.example.ramzy.er_scan.providers.NetworkProvider;
 import com.example.ramzy.er_scan.services.ErService;
-import com.example.ramzy.er_scan.ui.user_history_er.HistoryMapUser;
 import com.shuhart.stepview.StepView;
 
 import java.io.ByteArrayOutputStream;
@@ -47,6 +44,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,13 +55,13 @@ public class ScanEr extends BaseActivity {
     private int EXTERNAL_STORAGE_PERMISSION = 1;
 
     private Bitmap bitmap;
-    private File destination = null;
     private InputStream inputStreamImg;
     private String imgPath = null;
     private final int PICK_IMAGE_CAMERA = 1, PICK_IMAGE_GALLERY = 2;
 
     private ErService erService;
     private Uri fileUri;
+    private File destination = null;
     // Step view
     @BindView(R.id.step_view)
     StepView stepView;
@@ -136,6 +136,7 @@ public class ScanEr extends BaseActivity {
         this.setToolBar(R.id.adder_activity_toolbar,
                 R.id.drawer_layout,
                 R.id.nav_view_add_er_activity, this);
+
         setStepper();
         submitErButton.setVisibility(View.INVISIBLE);
     }
@@ -157,7 +158,7 @@ public class ScanEr extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ActivityCompat.requestPermissions(ScanEr.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                                 Manifest.permission.ACCESS_COARSE_LOCATION}, EXTERNAL_STORAGE_PERMISSION);
                             }
                         })
@@ -175,8 +176,7 @@ public class ScanEr extends BaseActivity {
 
             }
         } else {
-            Toast.makeText(ScanEr.this, "Position permission already granted",
-                    Toast.LENGTH_SHORT).show();
+            showChoiceDialog();
         }
 
     }
@@ -222,21 +222,12 @@ public class ScanEr extends BaseActivity {
         int vat = Integer.valueOf(expense_vat_et.getText().toString());
         String address = expense_place_et.getText().toString();
 
-        ExpenseReportDTO newExpense = new ExpenseReportDTO(price, vat, address);
+
+        ExpenseReportDTO newExpense = new ExpenseReportDTO(price, vat, address, "");
         String token = pref.getString("token", "");
 
-        Call<Response<String>> erCall = erService.submitExpense(newExpense, token);
-        erCall.enqueue(new Callback<Response<String>>() {
-            @Override
-            public void onResponse(Call<Response<String>> call, Response<Response<String>> response) {
-                Snackbar.make(submitErButton,"Expense successfully submitted :)" , Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
 
-            @Override
-            public void onFailure(Call<Response<String>> call, Throwable t) {
-            }
-        });
+        uploadFile(this.fileUri, this.destination, newExpense, token);
     }
 
     private void setStepper(){
@@ -282,11 +273,12 @@ public class ScanEr extends BaseActivity {
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
 
-                Log.e("Activity", "Pick from Camera::>>> ");
-
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
                 destination = new File(Environment.getExternalStorageDirectory() + "/" +
                         getString(R.string.app_name), "IMG_" + timeStamp + ".jpg");
+
+                //uploadFile(fileUri, destination);
+                this.fileUri = selectedImage;
                 FileOutputStream fo;
                 try {
                     destination.createNewFile();
@@ -311,10 +303,13 @@ public class ScanEr extends BaseActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
-                Log.e("Activity", "Pick from Gallery::>>> ");
 
                 imgPath = getRealPathFromURI(selectedImage);
                 destination = new File(imgPath.toString());
+
+                //uploadFile(fileUri, destination);
+                this.fileUri = selectedImage;
+                FileOutputStream fo;
                 expense_image.setImageBitmap(bitmap);
 
             } catch (Exception e) {
@@ -323,4 +318,60 @@ public class ScanEr extends BaseActivity {
         }
     }
 
+
+    private void uploadFile(Uri fileUri, File destination, final ExpenseReportDTO expense, final String token) {
+        // create upload service client
+        erService = NetworkProvider.getClient().create(ErService.class);
+
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(getContentResolver().getType(fileUri)),
+                        destination
+                );
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("image", destination.getName(), requestFile);
+
+        // add another part within the multipart request
+        String descriptionString = "hello, this is description speaking";
+        RequestBody description =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, descriptionString);
+
+        // finally, execute the request
+        Call<ImageDTO> call = erService.upload(description, body);
+        call.enqueue(new Callback<ImageDTO>() {
+            @Override
+            public void onResponse(Call<ImageDTO> call,
+                                   Response<ImageDTO> response) {
+                String external_image_url = response.body().getUrl();
+                expense.setImageID(external_image_url);
+                submitExpenseReport(expense, token);
+            }
+
+            @Override
+            public void onFailure(Call<ImageDTO> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void submitExpenseReport(ExpenseReportDTO expense, String token){
+        Call<Response<String>> call = erService.submitExpense(expense, token);
+        call.enqueue(new Callback<Response<String>>() {
+            @Override
+            public void onResponse(Call<Response<String>> call, Response<Response<String>> response) {
+                Snackbar.make(submitErButton,"Expense successfully submitted :)" , Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+
+            @Override
+            public void onFailure(Call<Response<String>> call, Throwable t) {
+                Snackbar.make(submitErButton,"Upload error" , Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    }
 }

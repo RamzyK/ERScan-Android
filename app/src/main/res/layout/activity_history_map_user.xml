@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,36 +10,55 @@
         android:id="@+id/history_toolbar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@color/button_color">
+        android:background="@color/button_color"
+        app:popupTheme="@style/AppTheme.AppBarOverlay">
 
         <ImageView
             android:id="@+id/back_to_last_page_btn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="26dp"
+            android:src="@drawable/back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/history_fragment_toolbar_title"
-            android:textSize="16sp"
+            android:textColor="@color/white"
 
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
+            android:textSize="20sp" />
 
     </android.support.v7.widget.Toolbar>
 
-    <FrameLayout
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.user_history_er.HistoryMapUser" />
-    </FrameLayout>
+            android:layout_height="match_parent" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/switch_to_list_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="30dp"
+            android:backgroundTint="@color/button_color"
+            android:src="@drawable/list_icon"
+            android:background="@android:color/transparent"
+            android:rotation="0" />
+
+
+    </RelativeLayout>
+
 
 </LinearLayout>
