@@ -4,11 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ImageDTO {
-    @SerializedName("url")
+    @SerializedName("image_name")
     @Expose
-    private String url;
+    private String image_name;
 
-    public String getUrl() {
-        return url;
+    public String getImage_name() {
+        return image_name;
     }
 }

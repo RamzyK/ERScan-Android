@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Geocoder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -34,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,11 +60,8 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
 
     @OnClick(R.id.switch_to_list_display)
     public void listDisplay(){
-        Toast.makeText(this, "Eh merce", Toast.LENGTH_SHORT).show();
-        ExpenseReportDTO erdto = new ExpenseReportDTO(20, 12, "test", "");
         Intent intent = new Intent(this, ErDetail.class);
         intent.putExtra("er_list", erL_list);
-        intent.putExtra("myObject", erdto);
         startActivity(intent);
     }
 
@@ -116,6 +115,8 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
                         new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
 
             }
+        }else{
+            getUserExpenses();
         }
     }
 
@@ -151,27 +152,28 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
         Geocoder geocoder = new Geocoder(this);
         double longitude = 0.0;
         double latitude = 0.0;
+        List<Address> addresses;
         int count = 0;
 
         for (ExpenseReportDTO er : address_list) {
             try {
-                longitude = geocoder.
-                        getFromLocationName(er.getAddress(), 1)
-                        .get(0)
-                        .getLongitude();
-                latitude = geocoder.
-                        getFromLocationName(er.getAddress(), 1)
-                        .get(0)
-                        .getLatitude();
+                addresses = geocoder.getFromLocationName(er.getAddress(), 1);
+
+                if(addresses.size() > 0){
+                    longitude = addresses.get(0).getLongitude();
+                    latitude = addresses.get(0).getLatitude();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            showPinsOnMap(er, longitude, latitude);
-            this.erL_list.add(er);
-            count++;
-            if(count == address_list.length){
-                listDiplayButton.setVisibility(View.VISIBLE);
+            if(longitude != 0.0 && latitude != 0.0){
+                showPinsOnMap(er, longitude, latitude);
+                this.erL_list.add(er);
+                count++;
+                if(count == address_list.length){
+                    listDiplayButton.setVisibility(View.VISIBLE);
+                }
             }
         }
     }

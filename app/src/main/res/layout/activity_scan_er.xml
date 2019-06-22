@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.expense_reports.ScanEr">
 
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/adder_activity_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="55dp"
         android:background="@color/button_color"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:titleTextColor="@color/white"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/AppTheme.AppBarOverlay">
+
+        <ImageView
+            android:id="@+id/back_to_types_grid"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="26dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New expense report form"
+            android:textColor="@color/white"
+
+            android:textSize="20sp" />
+
+    </android.support.v7.widget.Toolbar>
+
 
     <com.shuhart.stepview.StepView
         android:id="@+id/step_view"
@@ -26,16 +44,15 @@
         android:padding="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adder_activity_toolbar"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/adder_activity_toolbar" />
 
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/price_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/step_view"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/step_view">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/expense_report_price_et"
@@ -45,6 +62,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:hint="@string/expense_report_price"
+            android:imeOptions="actionGo"
             android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
@@ -54,8 +72,8 @@
         android:id="@+id/vat_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/price_text_input_layout"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/price_text_input_layout">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/expense_report_vat_et"
@@ -64,9 +82,9 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
+            android:enabled="false"
             android:hint="@string/expense_report_vat"
-            android:inputType="text"
-            android:enabled="false"/>
+            android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -75,8 +93,8 @@
         android:id="@+id/place_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/vat_text_input_layout"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/vat_text_input_layout">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/expense_report_place_et"
@@ -85,12 +103,11 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
+            android:enabled="false"
             android:hint="@string/expense_report_place"
-            android:inputType="text"
-            android:enabled="false"/>
+            android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
-
 
 
     <ImageView
@@ -98,30 +115,31 @@
         android:layout_width="200dp"
         android:layout_height="250dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="20dp"
+        android:clickable="false"
+        android:src="@drawable/no_image_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/place_text_input_layout"
-        android:src="@drawable/add_er"
-        android:clickable="false"/>
+        app:layout_constraintTop_toBottomOf="@+id/place_text_input_layout" />
 
     <Button
-        android:id="@+id/submit_er_button"
+        android:id="@+id/choose_type_button"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="0dp"
         android:backgroundTint="@color/green_valid"
         android:text="@string/submit_expense_valid_button"
         android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/back_and_next_buttonList_ll"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/expense_report_image" />
+        app:layout_constraintTop_toBottomOf="@+id/expense_report_image" />
 
 
     <LinearLayout

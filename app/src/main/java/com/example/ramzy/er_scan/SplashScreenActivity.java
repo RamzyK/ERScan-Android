@@ -90,6 +90,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         pref.edit().putString("token", response.body().getToken()).apply();
                         pref.edit().putString("idUser", response.body().get_id()).apply();
                         pref.edit().putString("email", response.body().getEmail()).apply();
+                        pref.edit().putString("imageID", response.body().getImageID()).apply();
                         pref.edit().putString("idCompany", response.body().getId_company()).apply();
                         pref.edit().putLong("last_login_date", currentDate).apply();
 

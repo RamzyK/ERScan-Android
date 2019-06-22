@@ -35,9 +35,9 @@ public class ErDetail extends FragmentActivity {
         ButterKnife.bind(this);
 
 
-        ExpenseReportDTO movie = getIntent().getParcelableExtra("myObject");
+
         ArrayList<ExpenseReportDTO> er_list = getIntent().getParcelableArrayListExtra("er_list");
-        Toast.makeText(this, movie.getAddress(), Toast.LENGTH_SHORT).show();
+
 
         er_list_rv.setLayoutManager(new LinearLayoutManager(this));
         ErDetailAdapter detailErAdapter = new ErDetailAdapter(er_list, this);

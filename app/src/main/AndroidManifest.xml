@@ -16,6 +16,7 @@
 
     <application
         android:allowBackup="true"
+        android:authorities="com.example.asd.fileprovider"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -24,6 +25,15 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
+
+        <activity
+            android:name=".ui.expense_reports.ChooseErType"
+            android:label="@string/choose_er_type_toolbar_title"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".ui.user_account.UpdateUserPasswordActivity" />
+
         <activity
             android:name=".ui.user_history_er.ErDetail"
             android:label="Expense detail" />
@@ -35,16 +45,12 @@
         <uses-library
             android:name="com.google.android.maps"
             android:required="true" /> <!-- Activities -->
-
         <activity
             android:name=".ui.user_history_er.HistoryMapUser"
             android:label="@string/title_activity_history_map_user" />
-
         <activity
             android:name=".ui.expense_reports.ScanEr"
-            android:label="New expense report"
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:label="New expense report form"/>
         <activity
             android:name=".SplashScreenActivity"
             android:noHistory="true">
@@ -54,21 +60,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".HomeActivity"
             android:label="Home"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ui.bugs.BugReportingActivity"
             android:label="Bug reporting"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".ui.user_account.AccountParamsActivity"
-            android:label="Account" />
-
+        <activity android:name=".ui.user_account.AccountParamsActivity" />
     </application>
 
 </manifest>

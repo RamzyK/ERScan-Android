@@ -7,15 +7,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.dto.ExpenseReportDTO;
+import com.example.ramzy.er_scan.dto.ImageDTO;
+import com.example.ramzy.er_scan.providers.Constants;
+import com.example.ramzy.er_scan.providers.NetworkProvider;
+import com.example.ramzy.er_scan.services.ImageUploadService;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ErDetailViewHolder extends RecyclerView.ViewHolder {
 
     private Context context;
+    private ImageUploadService imageService;
 
     @BindView(R.id.er_image_cell)
     ImageView er_image;
@@ -37,10 +48,20 @@ public class ErDetailViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(ExpenseReportDTO er){
         //er_image.setImageDrawable( R.drawable.logo_er_scan);
+        String image_path = Constants.loacl_URL + "images/" + er.getImageID();
 
-
-        er_address.setText(er.getAddress());
-        er_price.setText(String.valueOf(er.getPrice()));
+        if(er.getStatus() == 0){
+            er_status.setImageDrawable(context.getDrawable(R.drawable.unverified));
+        }else{
+            er_status.setImageDrawable(context.getDrawable(R.drawable.verified));
+        }
+        er_address.setText("Place: " + er.getAddress());
+        er_price.setText("Price: " + er.getPrice() + "€");
+        if(er.getImageID() == null){
+            er_image.setImageDrawable(context.getDrawable(R.drawable.not_found_icon));
+        }else{
+            Glide.with(context).load(image_path).into(er_image);
+        }
 
     }
 

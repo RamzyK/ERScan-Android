@@ -45,6 +45,15 @@
         <item>Sending ER</item>
         <item>History map</item>
     </string-array>
+
     <string name="title_activity_history_map_user">Map</string>
-    <string name="history_fragment_toolbar_title">Your personal history</string>
+    <string name="history_fragment_toolbar_title">Your history</string>
+    <string name="old_password_text_input">Old password</string>
+    <string name="indication_for_password_tv">Your password must contain 8 caracters at least, 1 uppercase and 1 number</string>
+    <string name="update_password_button">Update</string>
+    <string name="new_password_et">New password</string>
+    <string name="choose_er_type_toolbar_title">Choose expense category</string>
+    <string name="grid_cell_description_hint">Description</string>
+    <string name="account_parameters_save_btn">Save params</string>
+    <string name="account_parameters_update_pwd_btn">Update Password</string>
 </resources>

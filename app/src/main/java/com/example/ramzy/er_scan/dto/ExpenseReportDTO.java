@@ -24,16 +24,26 @@ public class ExpenseReportDTO implements Parcelable {
     @Expose
     String imageID;
 
-    public ExpenseReportDTO(int p, int v, String address, String image_url){
+    @SerializedName("type")
+    @Expose
+    String type;
+
+    @SerializedName("status")
+    @Expose
+    int status;
+
+    public ExpenseReportDTO(int p, int v, String address, String t, String image_url){
         this.price = p;
         this.vat = v;
         this.address = address;
+        this.type = t;
         this.imageID = image_url;
     }
 
     protected ExpenseReportDTO(Parcel in) {
         price = in.readInt();
         vat = in.readInt();
+        type = in.readString();
         address = in.readString();
         imageID = in.readString();
     }
@@ -60,6 +70,7 @@ public class ExpenseReportDTO implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(price);
         dest.writeInt(vat);
+        dest.writeString(type);
         dest.writeString(address);
         dest.writeString(imageID);
     }
@@ -82,5 +93,21 @@ public class ExpenseReportDTO implements Parcelable {
 
     public void setImageID(String imageID) {
         this.imageID = imageID;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

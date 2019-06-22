@@ -18,8 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.ramzy.er_scan.preferences.SharedPrefs;
+import com.example.ramzy.er_scan.providers.Constants;
 import com.example.ramzy.er_scan.ui.bugs.BugReportingActivity;
+import com.example.ramzy.er_scan.ui.expense_reports.ChooseErType;
 import com.example.ramzy.er_scan.ui.expense_reports.ScanEr;
 import com.example.ramzy.er_scan.ui.user_account.AccountParamsActivity;
 import com.example.ramzy.er_scan.ui.user_history_er.HistoryMapUser;
@@ -79,10 +82,14 @@ public class BaseActivity extends AppCompatActivity
         ImageView image = findViewById(R.id.imageView);
         userFirstname.setText(pref.getString("firstname", "NaN"));
         userLastName.setText(pref.getString("lastname", "NaN"));
+        if(!pref.getString("imageID", "none").equals("none")){
+            String user_picture = pref.getString("imageID", "none");
+            String image_path = Constants.loacl_URL + "images/" + user_picture;
+            Glide.with(this).load(image_path).into(image);
+        }
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BaseActivity.this, "Params", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(BaseActivity.this, AccountParamsActivity.class);
                 startActivity(i);
             }
@@ -117,7 +124,7 @@ public class BaseActivity extends AppCompatActivity
             startActivity(i);
             
         } else if (id == R.id.add_er) {
-            Intent i = new Intent(BaseActivity.this, ScanEr.class);
+            Intent i = new Intent(BaseActivity.this, ChooseErType.class);
             startActivity(i);
             
         } else if (id == R.id.er_history) {

@@ -2,10 +2,27 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#FD3976</color>
+    <color name="colorAccent2">#83F5BCCB</color>
     <color name="button_color">#e51a92f4</color>
     <color name="login_background">#e5f2f2cf</color>
     <color name="white">#FFFFFF</color>
     <color name="green_valid">#EE4CAF50</color>
     <color name="circle_background_color">#03A9F4</color>
+
+
+
+    <!-- Er category grid colors -->
+    <color name="cell1">#2CCF48</color>
+    <color name="cell2">#10AEF1</color>
+    <color name="cell3">#FF7A22</color>
+    <color name="cell4">#FFC907</color>
+    <color name="cell5">#9C27B0</color>
+    <color name="cell6">#F44336</color>
+    <color name="cell7">#3347B6</color>
+    <color name="cell8">#009688</color>
+    <color name="cell9">#8BC34A</color>
+    <color name="cell10">#5E3FB5</color>
+    <color name="cell11">#A7662B</color>
+
 </resources>

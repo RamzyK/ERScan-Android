@@ -32,10 +32,6 @@ public class UserDTO {
     @Expose
     private String imageID;
 
-    @SerializedName("companyID")
-    @Expose
-    private String companyID;
-
     @SerializedName("id_company")
     @Expose
     private String id_company;
@@ -115,14 +111,6 @@ public class UserDTO {
 
     public void setImageID(String imageID) {
         this.imageID = imageID;
-    }
-
-    public String getCompanyID() {
-        return companyID;
-    }
-
-    public void setCompanyID(String companyID) {
-        this.companyID = companyID;
     }
 
     public String getId_company() {
