@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.dto.ExpenseReportDTO;
+import com.example.ramzy.er_scan.ui.expense_reports.ErTypesListManager;
 import com.example.ramzy.er_scan.ui.user_history_er.adapter.ErDetailAdapter;
 
 import java.util.ArrayList;
@@ -34,10 +35,7 @@ public class ErDetail extends FragmentActivity {
         setContentView(R.layout.activity_er_detail);
         ButterKnife.bind(this);
 
-
-
         ArrayList<ExpenseReportDTO> er_list = getIntent().getParcelableArrayListExtra("er_list");
-
 
         er_list_rv.setLayoutManager(new LinearLayoutManager(this));
         ErDetailAdapter detailErAdapter = new ErDetailAdapter(er_list, this);

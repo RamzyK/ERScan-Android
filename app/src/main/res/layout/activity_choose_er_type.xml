@@ -35,7 +35,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/grid_types_rv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"/>
 
 
         </android.support.design.widget.CoordinatorLayout>

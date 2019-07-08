@@ -56,4 +56,6 @@
     <string name="grid_cell_description_hint">Description</string>
     <string name="account_parameters_save_btn">Save params</string>
     <string name="account_parameters_update_pwd_btn">Update Password</string>
+    <string name="start_btn_text">OK, let\'s start !</string>
+    <string name="pager_page_1_description">Keep a history of your expense reports on a map</string>
 </resources>

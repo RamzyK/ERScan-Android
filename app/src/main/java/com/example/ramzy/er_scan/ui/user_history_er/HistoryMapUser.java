@@ -123,7 +123,7 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
 
     private void getUserExpenses() {
         String token = pref.getString("token", "null");
-        if (token != "null") {
+        if (!token.equals("null")) {
             er_service = NetworkProvider.getClient().create(ErService.class);
 
             Call<ExpenseReportResponseDTO> erReponse = er_service.getUserExpenseReports(token);

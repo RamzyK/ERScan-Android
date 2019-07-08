@@ -38,6 +38,7 @@ public class ExpenseReportDTO implements Parcelable {
         this.address = address;
         this.type = t;
         this.imageID = image_url;
+
     }
 
     protected ExpenseReportDTO(Parcel in) {
@@ -46,6 +47,7 @@ public class ExpenseReportDTO implements Parcelable {
         type = in.readString();
         address = in.readString();
         imageID = in.readString();
+        status = in.readInt();
     }
 
     public static final Creator<ExpenseReportDTO> CREATOR = new Creator<ExpenseReportDTO>() {
@@ -73,6 +75,7 @@ public class ExpenseReportDTO implements Parcelable {
         dest.writeString(type);
         dest.writeString(address);
         dest.writeString(imageID);
+        dest.writeInt(status);
     }
 
     public int getPrice() {

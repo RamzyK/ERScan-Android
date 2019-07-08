@@ -84,6 +84,7 @@ public class BaseActivity extends AppCompatActivity
         userLastName.setText(pref.getString("lastname", "NaN"));
         if(!pref.getString("imageID", "none").equals("none")){
             String user_picture = pref.getString("imageID", "none");
+
             String image_path = Constants.loacl_URL + "images/" + user_picture;
             Glide.with(this).load(image_path).into(image);
         }

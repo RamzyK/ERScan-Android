@@ -206,7 +206,7 @@ public class ScanEr extends FragmentActivity {
                 MultipartBody.Part.createFormData("image", destination.getName(), requestFile);
 
         // add another part within the multipart request
-        String descriptionString = "hello, this is description speaking";
+        String descriptionString = "Image description";
         RequestBody description =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, descriptionString);

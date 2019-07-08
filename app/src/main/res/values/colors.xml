@@ -9,6 +9,7 @@
     <color name="white">#FFFFFF</color>
     <color name="green_valid">#EE4CAF50</color>
     <color name="circle_background_color">#03A9F4</color>
+    <color name="blackText">#000000</color>
 
 
 
@@ -24,5 +25,11 @@
     <color name="cell9">#8BC34A</color>
     <color name="cell10">#5E3FB5</color>
     <color name="cell11">#A7662B</color>
+
+
+    <!-- View pager layouts backgrounds -->
+    <color name="page1">#B59C27B0</color>
+    <color name="page2">#8BC34A</color>
+    <color name="page3">#FF7A22</color>
 
 </resources>

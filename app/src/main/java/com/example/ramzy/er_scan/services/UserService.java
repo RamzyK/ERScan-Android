@@ -16,7 +16,7 @@ public interface UserService {
     @PUT("users//updatePass")
     Call<UserDTO> updateUserPassword(@Body LoginDTO userLog, @Header("x-access-token") String token);
 
-    @PUT("users/updateUser")
+    @PUT("users/updateUserImage")
     Call<UserDTO> updateUserAccountParams(@Body UserDTO userDTO, @Header("x-access-token") String token);
 
     @POST("users/checkPass")
