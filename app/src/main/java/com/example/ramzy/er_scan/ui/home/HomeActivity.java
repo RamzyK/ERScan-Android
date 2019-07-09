@@ -26,6 +26,7 @@ import com.example.ramzy.er_scan.ui.expense_reports.ChooseErTypeActivity;
 import com.example.ramzy.er_scan.ui.user_history_er.adapter.ErDetailAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -99,9 +100,7 @@ public class HomeActivity extends BaseActivity {
                     ExpenseReportDTO[] expenses = response.body().getErList();
                     if(expenses.length > 0){
                         noExpenseHistory.setVisibility(View.INVISIBLE);
-                        er_list.add(expenses[0]);
-                        er_list.add(expenses[1]);
-                        er_list.add(expenses[2]);
+                        Collections.addAll(er_list, expenses);
                         ErDetailAdapter detailErAdapter = new ErDetailAdapter(er_list, HomeActivity.this);
                         lastExpensesRv.setAdapter(detailErAdapter);
                     }else{
