@@ -13,6 +13,9 @@ public class ExpenseReportResponseDTO {
 
 
     public ExpenseReportDTO[] getErList() {
+        if(erList == null){
+            return new ExpenseReportDTO[0];
+        }
         return erList;
     }
 

@@ -1,6 +1,7 @@
 package com.example.ramzy.er_scan.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,12 +12,19 @@ import android.widget.Button;
 
 import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.SplashScreenActivity;
+import com.example.ramzy.er_scan.preferences.SharedPrefs;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AppDescriptionPager extends AppCompatActivity {
 
-    private ViewPager descriptionPager;
+    @BindView(R.id.app_description_usage_viewpager)
+    ViewPager descriptionPager;
+
     private Button startAppBtn;
     private int[] listSlides;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +32,8 @@ public class AppDescriptionPager extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_app_description_pager);
+        ButterKnife.bind(this);
 
-
-        descriptionPager = findViewById(R.id.app_description_usage_viewpager);
         startAppBtn = findViewById(R.id.start_app_usage_btn);
         startAppBtn.setVisibility(View.INVISIBLE);
         startAppBtn.setOnClickListener(new View.OnClickListener() {

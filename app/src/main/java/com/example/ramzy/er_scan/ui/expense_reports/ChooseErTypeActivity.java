@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChooseErType extends BaseActivity implements ErTypeGridAdapter.ItemClickListener {
+public class ChooseErTypeActivity extends BaseActivity implements ErTypeGridAdapter.ItemClickListener {
 
     private ArrayList<ErTypes> erTypesList;
 

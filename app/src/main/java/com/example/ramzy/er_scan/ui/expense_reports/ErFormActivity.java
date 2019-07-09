@@ -22,14 +22,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.ramzy.er_scan.BaseActivity;
-import com.example.ramzy.er_scan.HomeActivity;
 import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.Tools;
 import com.example.ramzy.er_scan.dto.ExpenseReportDTO;
 import com.example.ramzy.er_scan.dto.ImageDTO;
 import com.example.ramzy.er_scan.providers.NetworkProvider;
 import com.example.ramzy.er_scan.services.ErService;
+import com.example.ramzy.er_scan.ui.home.HomeActivity;
 import com.shuhart.stepview.StepView;
 
 import java.io.ByteArrayOutputStream;
@@ -47,7 +46,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ScanEr extends FragmentActivity {
+public class ErFormActivity extends FragmentActivity {
     private int EXTERNAL_STORAGE_PERMISSION = 1;
     private final int PICK_IMAGE_CAMERA = 1, PICK_IMAGE_GALLERY = 2;
 
@@ -97,7 +96,7 @@ public class ScanEr extends FragmentActivity {
                         expense_vat_et.setEnabled(true);
                         expense_vat_et.requestFocus();
                     } else {
-                        Toast.makeText(ScanEr.this, String.valueOf(stepView.getCurrentStep()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ErFormActivity.this, String.valueOf(stepView.getCurrentStep()), Toast.LENGTH_SHORT).show();
                         expense_vat_et.requestFocus();
                     }
                     return true;
@@ -118,7 +117,7 @@ public class ScanEr extends FragmentActivity {
                         expense_place_et.requestFocus();
 
                     } else {
-                        Toast.makeText(ScanEr.this, "OK2", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ErFormActivity.this, "OK2", Toast.LENGTH_SHORT).show();
                         expense_place_et.requestFocus();
                     }
                     return true;
@@ -133,7 +132,7 @@ public class ScanEr extends FragmentActivity {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     // Perform action on key press
-                    Toast.makeText(ScanEr.this, "OK3", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ErFormActivity.this, "OK3", Toast.LENGTH_SHORT).show();
                     stepView.go(stepView.getCurrentStep() + 1, true);
                     expense_image.setClickable(true);
                     expense_place_et.clearFocus();
@@ -261,7 +260,7 @@ public class ScanEr extends FragmentActivity {
                 .setNegativeButton("No thanks", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(ScanEr.this, HomeActivity.class);
+                        Intent i = new Intent(ErFormActivity.this, HomeActivity.class);
                         startActivity(i);
                     }
                 })

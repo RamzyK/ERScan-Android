@@ -36,7 +36,7 @@
     <string name="report_bug_menu_drawer">Report Bug</string>
     <string name="history_menu_drawer">History</string>
     <string name="add_er_menu_drawer">Add ER</string>
-    <string name="scan_menu_drawer">Scan</string>
+    <string name="home_menu_drawer">Home</string>
     <string name="share_menu_drawer">Share</string>
 
     <string-array name="but_types">
@@ -58,4 +58,12 @@
     <string name="account_parameters_update_pwd_btn">Update Password</string>
     <string name="start_btn_text">OK, let\'s start !</string>
     <string name="pager_page_1_description">Keep a history of your expense reports on a map</string>
+    <string name="home_text_part2">Welcome to ER Scan</string>
+    <string name="home_text_part1">Hi,</string>
+    <string name="last_expense_title">Your last expenses</string>
+    <string name="total_expenses_month_hint">Total expenses (Month): 360€</string>
+    <string name="validated_expenses_hint"> Validated expenses: 4</string>
+    <string name="refused_expenses_hint"> Refused expenses: 1</string>
+    <string name="no_er_history_text">You don\'t have any history yet</string>
+
 </resources>

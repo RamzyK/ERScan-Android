@@ -20,6 +20,8 @@ import com.example.ramzy.er_scan.dto.UserDTO;
 import com.example.ramzy.er_scan.preferences.SharedPrefs;
 import com.example.ramzy.er_scan.providers.NetworkProvider;
 import com.example.ramzy.er_scan.services.UserService;
+import com.example.ramzy.er_scan.ui.AppDescriptionPager;
+import com.example.ramzy.er_scan.ui.home.HomeActivity;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -65,13 +67,22 @@ public class SplashScreenActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         pref =  SharedPrefs.getInstance(this);
 
-        lastLoginDate = pref.getLong("last_login_date", 0);
-        currentDate = System.currentTimeMillis();
+        boolean isFirstOpen = pref.getBoolean("first_open", true);
 
-        if((currentDate - lastLoginDate) < 86400000){  // Si l'utilisateur a quitté l'app depuis plus de 24h
-            pref.edit().putLong("last_login_date", currentDate).apply();
-            Intent stillLoggedIn = new Intent(SplashScreenActivity.this, HomeActivity.class);
-            startActivity(stillLoggedIn);
+        if(isFirstOpen){
+            pref.edit().putBoolean("first_open", false).apply();
+            Intent i = new Intent(this, AppDescriptionPager.class);
+            startActivity(i);
+        }else{
+            lastLoginDate = pref.getLong("last_login_date", 0);
+            currentDate = System.currentTimeMillis();
+
+            if((currentDate - lastLoginDate) < 86400000){  // Si l'utilisateur a quitté l'app depuis plus de 24h
+                pref.edit().putBoolean("logged", true).apply();
+                pref.edit().putLong("last_login_date", currentDate).apply();
+                Intent stillLoggedIn = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                startActivity(stillLoggedIn);
+            }
         }
     }
 

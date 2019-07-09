@@ -53,6 +53,8 @@ public class ErDetailViewHolder extends RecyclerView.ViewHolder {
             er_status.setImageDrawable(context.getDrawable(R.drawable.unverified));
         }else if(er.getStatus() == 1){
             er_status.setImageDrawable(context.getDrawable(R.drawable.verified));
+        }else{
+            er_status.setImageDrawable(context.getDrawable(R.drawable.refused));
         }
         erAdress.setText("Place: " + er.getAddress());
         erPrice.setText("Price: " + er.getPrice() + "€");

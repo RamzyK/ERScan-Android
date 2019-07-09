@@ -22,8 +22,8 @@ import com.bumptech.glide.Glide;
 import com.example.ramzy.er_scan.preferences.SharedPrefs;
 import com.example.ramzy.er_scan.providers.Constants;
 import com.example.ramzy.er_scan.ui.bugs.BugReportingActivity;
-import com.example.ramzy.er_scan.ui.expense_reports.ChooseErType;
-import com.example.ramzy.er_scan.ui.expense_reports.ScanEr;
+import com.example.ramzy.er_scan.ui.expense_reports.ChooseErTypeActivity;
+import com.example.ramzy.er_scan.ui.home.HomeActivity;
 import com.example.ramzy.er_scan.ui.user_account.AccountParamsActivity;
 import com.example.ramzy.er_scan.ui.user_history_er.HistoryMapUser;
 
@@ -125,7 +125,7 @@ public class BaseActivity extends AppCompatActivity
             startActivity(i);
             
         } else if (id == R.id.add_er) {
-            Intent i = new Intent(BaseActivity.this, ChooseErType.class);
+            Intent i = new Intent(BaseActivity.this, ChooseErTypeActivity.class);
             startActivity(i);
             
         } else if (id == R.id.er_history) {
@@ -140,8 +140,10 @@ public class BaseActivity extends AppCompatActivity
             Toast.makeText(this, "Thanks for sharing :)", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.logout_btn) {
             pref.edit().clear().apply();
-            Intent loginPage = new Intent(this, SplashScreenActivity.class);
-            startActivity(loginPage);
+            pref.edit().putBoolean("first_open", false).apply();
+            Intent intent = new Intent(BaseActivity.this, SplashScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

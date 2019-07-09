@@ -20,7 +20,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.ramzy.er_scan.HomeActivity;
 import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.Tools;
 import com.example.ramzy.er_scan.dto.ImageDTO;
@@ -30,6 +29,7 @@ import com.example.ramzy.er_scan.providers.Constants;
 import com.example.ramzy.er_scan.providers.NetworkProvider;
 import com.example.ramzy.er_scan.services.ImageUploadService;
 import com.example.ramzy.er_scan.services.UserService;
+import com.example.ramzy.er_scan.ui.home.HomeActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

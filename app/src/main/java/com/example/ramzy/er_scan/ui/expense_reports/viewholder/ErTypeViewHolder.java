@@ -1,7 +1,6 @@
 package com.example.ramzy.er_scan.ui.expense_reports.viewholder;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.preferences.SharedPrefs;
-import com.example.ramzy.er_scan.ui.expense_reports.ScanEr;
+import com.example.ramzy.er_scan.ui.expense_reports.ErFormActivity;
 import com.example.ramzy.er_scan.ui.expense_reports.adapter.ErTypeGridAdapter;
 
 import butterknife.BindView;
@@ -47,7 +46,7 @@ public class ErTypeViewHolder extends RecyclerView.ViewHolder implements View.On
         type_title.setText(type.getType_title());
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent i = new Intent(context, ScanEr.class);
+                Intent i = new Intent(context, ErFormActivity.class);
                 i.putExtra("er-type", type.getType_title());
                 i.putExtra("token", SharedPrefs.getInstance(context).getString("token", "none"));
                 context.startActivity(i);

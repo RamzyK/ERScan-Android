@@ -24,6 +24,9 @@ public interface ErService {
     @GET("expenseReport/erByUser")
     Call<ExpenseReportResponseDTO> getUserExpenseReports(@Header("x-access-token") String token);
 
+    @GET("expenseReport/lastThree")
+    Call<ExpenseReportResponseDTO> getLast3Expenses(@Header("x-access-token") String token);
+
 
     @Multipart
     @POST("images/upload")
