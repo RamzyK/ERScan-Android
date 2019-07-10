@@ -1,5 +1,6 @@
 package com.example.ramzy.er_scan.ui.expense_reports;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -79,64 +81,64 @@ public class ErFormActivity extends FragmentActivity {
         imageTools = Tools.getInstance(this);
         setStepper();
         submitErButton.setVisibility(View.INVISIBLE);
-        expense_image.setVisibility(View.INVISIBLE);
+        expenseImage.setVisibility(View.INVISIBLE);
         setEnterKeyListenenrs();
+        expensePriceEt.requestFocus();
     }
 
     private void setEnterKeyListenenrs() {
 
-        expense_price_et.setOnKeyListener(new View.OnKeyListener() {
+        expensePriceEt.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    expensePriceEt.clearFocus();
                     // Perform action on key press
-                    if (!expense_vat_et.isEnabled()) {
+                    if (!expenseVatEt.isEnabled()) {
                         stepView.go(stepView.getCurrentStep() + 1, true);
-                        expense_vat_et.setEnabled(true);
-                        expense_vat_et.requestFocus();
-                    } else {
-                        Toast.makeText(ErFormActivity.this, String.valueOf(stepView.getCurrentStep()), Toast.LENGTH_SHORT).show();
-                        expense_vat_et.requestFocus();
+                        expenseVatEt.setEnabled(true);
+                        expenseVatEt.requestFocus();
                     }
+                    expenseVatEt.requestFocus();
                     return true;
                 }
                 return false;
             }
         });
 
-        expense_vat_et.setOnKeyListener(new View.OnKeyListener() {
+        expenseVatEt.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    expenseVatEt.clearFocus();
                     // Perform action on key press
-                    if (!expense_place_et.isEnabled()) {
+                    if (!expensePlaceEt.isEnabled()) {
                         stepView.go(stepView.getCurrentStep() + 1, true);
-                        expense_place_et.setEnabled(true);
-                        expense_place_et.requestFocus();
+                        expensePlaceEt.setEnabled(true);
 
-                    } else {
-                        Toast.makeText(ErFormActivity.this, "OK2", Toast.LENGTH_SHORT).show();
-                        expense_place_et.requestFocus();
                     }
+                    expensePlaceEt.requestFocus();
                     return true;
                 }
                 return false;
             }
         });
 
-        expense_place_et.setOnKeyListener(new View.OnKeyListener() {
+        expensePlaceEt.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     // Perform action on key press
-                    Toast.makeText(ErFormActivity.this, "OK3", Toast.LENGTH_SHORT).show();
+                    InputMethodManager imm = (InputMethodManager) getApplication().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(expenseImage.getWindowToken(), 0);
                     stepView.go(stepView.getCurrentStep() + 1, true);
-                    expense_image.setClickable(true);
-                    expense_place_et.clearFocus();
-                    expense_image.setVisibility(View.VISIBLE);
+                    expenseImage.setClickable(true);
+                    expensePlaceEt.clearFocus();
+                    expenseImage.setVisibility(View.VISIBLE);
+
                     LinearLayout ll = findViewById(R.id.back_and_next_buttonList_ll);
                     ll.setVisibility(View.INVISIBLE);
 
@@ -175,9 +177,9 @@ public class ErFormActivity extends FragmentActivity {
     private void sendEr() {
         erService = NetworkProvider.getClient().create(ErService.class);
 
-        int price = Integer.valueOf(expense_price_et.getText().toString());
-        int vat = Integer.valueOf(expense_vat_et.getText().toString());
-        String address = expense_place_et.getText().toString();
+        int price = Integer.valueOf(expensePriceEt.getText().toString());
+        int vat = Integer.valueOf(expenseVatEt.getText().toString());
+        String address = expensePlaceEt.getText().toString();
 
 
         ExpenseReportDTO newExpense = new ExpenseReportDTO(price, vat, address, current_er_type, "");
@@ -276,7 +278,7 @@ public class ErFormActivity extends FragmentActivity {
         if (requestCode == PICK_IMAGE_CAMERA) {
             try {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                expense_image.setImageBitmap(photo);
+                expenseImage.setImageBitmap(photo);
 
                 // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
                 this.fileUri = getImageUri(getApplicationContext(), photo);
@@ -284,6 +286,7 @@ public class ErFormActivity extends FragmentActivity {
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 imgPath = getRealPathFromURI(this.fileUri);
                 image_file = new File(imgPath);
+                submitErButton.setVisibility(View.VISIBLE);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -298,8 +301,8 @@ public class ErFormActivity extends FragmentActivity {
                 image_file = new File(imgPath);
 
                 this.fileUri = selectedImage;
-                expense_image.setImageBitmap(bitmap);
-
+                expenseImage.setImageBitmap(bitmap);
+                submitErButton.setVisibility(View.VISIBLE);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -327,7 +330,7 @@ public class ErFormActivity extends FragmentActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == EXTERNAL_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                imageTools.showChoiceDialog(submitErButton);
+                imageTools.showChoiceDialog();
             }
         }
     }
@@ -353,13 +356,13 @@ public class ErFormActivity extends FragmentActivity {
         this.stepView.go(stepView.getCurrentStep() + 1, true);
 
         if (this.stepView.getCurrentStep() == 0) {
-            expense_vat_et.setEnabled(true);
-            expense_vat_et.requestFocus();
+            expenseVatEt.setEnabled(true);
+            expenseVatEt.requestFocus();
         } else if (this.stepView.getCurrentStep() == 1) {
-            expense_place_et.setEnabled(true);
-            expense_place_et.requestFocus();
+            expensePlaceEt.setEnabled(true);
+            expensePlaceEt.requestFocus();
         } else if (this.stepView.getCurrentStep() == 2) {
-            expense_image.setClickable(true);
+            expenseImage.setClickable(true);
             LinearLayout ll = findViewById(R.id.back_and_next_buttonList_ll);
             ll.setVisibility(View.INVISIBLE);
         }
@@ -376,15 +379,15 @@ public class ErFormActivity extends FragmentActivity {
 
     // Price EditText
     @BindView(R.id.expense_report_price_et)
-    EditText expense_price_et;
+    EditText expensePriceEt;
 
     // VAT EditText
     @BindView(R.id.expense_report_vat_et)
-    EditText expense_vat_et;
+    EditText expenseVatEt;
 
     // Place EditText
     @BindView(R.id.expense_report_place_et)
-    EditText expense_place_et;
+    EditText expensePlaceEt;
 
     @OnClick(R.id.back_to_types_grid)
     public void backToGrid(){
@@ -393,13 +396,13 @@ public class ErFormActivity extends FragmentActivity {
 
     // ER image
     @BindView(R.id.expense_report_image)
-    ImageView expense_image;
+    ImageView expenseImage;
 
     @OnClick(R.id.expense_report_image)
     public void chooseImage() {
         if (this.stepView.getCurrentStep() == 3) {
             //askMediaPermission();
-            imageTools.askMediaPermission(submitErButton);
+            imageTools.askMediaPermission();
         } else {
             Toast.makeText(this, "You cannot choose image step is not here yet", Toast.LENGTH_SHORT).show();
         }

@@ -33,7 +33,7 @@ public class Tools {
         return instance;
     }
 
-    public void askMediaPermission(Button b) {
+    public void askMediaPermission() {
 
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(context,
@@ -66,12 +66,12 @@ public class Tools {
 
             }
         } else {
-            showChoiceDialog(b);
+            showChoiceDialog();
         }
 
     }
 
-    public void showChoiceDialog(final Button b){
+    public void showChoiceDialog(){
         final CharSequence[] options = {"Take Photo", "Choose From Gallery","Cancel"};
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
         builder.setTitle("Select Option");
@@ -82,21 +82,15 @@ public class Tools {
                     dialog.dismiss();
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     context.startActivityForResult(intent, PICK_IMAGE_CAMERA);
-                    if(b != null){
-                        b.setVisibility(View.VISIBLE);
-                    }
+
                 } else if (options[item].equals("Choose From Gallery")) {
                     dialog.dismiss();
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     context.startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
-                    if(b != null){
-                        b.setVisibility(View.VISIBLE);
-                    }
+
                 } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
-                    if(b != null){
-                        b.setVisibility(View.VISIBLE);
-                    }
+
                 }
             }
         });

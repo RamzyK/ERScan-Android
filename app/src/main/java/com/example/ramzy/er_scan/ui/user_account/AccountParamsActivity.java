@@ -69,7 +69,7 @@ public class AccountParamsActivity extends FragmentActivity {
         ButterKnife.bind(this);
 
         imageTools = Tools.getInstance(this);
-        save_button.setVisibility(View.INVISIBLE);
+        saveButton.setVisibility(View.INVISIBLE);
 
         pref = SharedPrefs.getInstance(this);
 
@@ -111,7 +111,7 @@ public class AccountParamsActivity extends FragmentActivity {
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 imgPath = getRealPathFromURI(this.fileUri);
                 image_file = new File(imgPath);
-                save_button.setVisibility(View.VISIBLE);
+                saveButton.setVisibility(View.VISIBLE);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -127,7 +127,7 @@ public class AccountParamsActivity extends FragmentActivity {
 
                 this.fileUri = selectedImage;
                 userPicture.setImageBitmap(bitmap);
-                save_button.setVisibility(View.VISIBLE);
+                saveButton.setVisibility(View.VISIBLE);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -206,13 +206,13 @@ public class AccountParamsActivity extends FragmentActivity {
             call.enqueue(new Callback<UserDTO>() {
                 @Override
                 public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                    Snackbar.make(save_button, "Your account has been updated!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(saveButton, "Your account has been updated!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
 
                 @Override
                 public void onFailure(Call<UserDTO> call, Throwable t) {
-                    Snackbar.make(save_button, "An error happened, try again later.", Snackbar.LENGTH_LONG)
+                    Snackbar.make(saveButton, "An error happened, try again later.", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             });
@@ -251,7 +251,7 @@ public class AccountParamsActivity extends FragmentActivity {
 
     @OnClick(R.id.user_image)
     public void userImageTouched(){
-        imageTools.askMediaPermission(null);
+        imageTools.askMediaPermission();
     }
 
     @OnClick(R.id.back_to_home_activity)
@@ -260,7 +260,7 @@ public class AccountParamsActivity extends FragmentActivity {
     }
 
     @BindView(R.id.save_updates)
-    Button save_button;
+    Button saveButton;
 
     @OnClick(R.id.save_updates)
     public void save_updates(){
