@@ -65,5 +65,6 @@
     <string name="validated_expenses_hint"> Validated expenses: 4</string>
     <string name="refused_expenses_hint"> Refused expenses: 1</string>
     <string name="no_er_history_text">You don\'t have any history yet</string>
+    <string name="expense_detail_toolbar_title">Expense detail</string>
 
 </resources>

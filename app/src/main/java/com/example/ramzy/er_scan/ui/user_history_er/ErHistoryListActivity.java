@@ -1,16 +1,12 @@
 package com.example.ramzy.er_scan.ui.user_history_er;
 
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.dto.ExpenseReportDTO;
-import com.example.ramzy.er_scan.ui.expense_reports.ErTypesListManager;
 import com.example.ramzy.er_scan.ui.user_history_er.adapter.ErDetailAdapter;
 
 import java.util.ArrayList;
@@ -19,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ErDetail extends FragmentActivity {
+public class ErHistoryListActivity extends FragmentActivity {
 
     @OnClick(R.id.back_to_map_list)
     public void backToMAp(){
@@ -32,7 +28,7 @@ public class ErDetail extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_er_detail);
+        setContentView(R.layout.activity_er_list_history);
         ButterKnife.bind(this);
 
         ArrayList<ExpenseReportDTO> er_list = getIntent().getParcelableArrayListExtra("er_list");

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.user_history_er.ErDetail">
+    tools:context=".ui.user_history_er.ErDetailActivity"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/history_toolbar"
@@ -15,7 +15,7 @@
         app:popupTheme="@style/AppTheme.AppBarOverlay">
 
         <ImageView
-            android:id="@+id/back_to_map_list"
+            android:id="@+id/er_detail_toolbar_back_btn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -25,16 +25,66 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/history_fragment_toolbar_title"
+            android:text="@string/expense_detail_toolbar_title"
             android:textColor="@color/white"
-
             android:textSize="20sp" />
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/er_list_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <ImageView
+        android:id="@+id/er_receipt_imageview"
+        android:layout_width="180dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/unverified"/>
+
+    <TextView
+        android:id="@+id/er_amount_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Amount: "
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30sp"/>
+    <TextView
+        android:id="@+id/er_vat_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="VAT(%) : "
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30sp"/>
+    <TextView
+        android:id="@+id/er_place_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="At : "
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30sp"/>
+
+    <TextView
+        android:id="@+id/er_status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Status : "
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30sp"/>
+
+    <TextView
+        android:id="@+id/er_type_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Type : "
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30sp"/>
 
 </LinearLayout>

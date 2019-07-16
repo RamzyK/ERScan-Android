@@ -1,6 +1,7 @@
 package com.example.ramzy.er_scan.ui.user_history_er.viewholder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.dto.ExpenseReportDTO;
 import com.example.ramzy.er_scan.providers.Constants;
 import com.example.ramzy.er_scan.ui.expense_reports.ErTypesListManager;
+import com.example.ramzy.er_scan.ui.user_history_er.ErDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +22,7 @@ public class ErDetailViewHolder extends RecyclerView.ViewHolder {
 
     private Context context;
     private ErTypesListManager erTypesListManager;
+    private ExpenseReportDTO expenseReportDTO;
 
     @BindView(R.id.er_image_cell)
     ImageView erImage;
@@ -36,14 +39,31 @@ public class ErDetailViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.er_image_cell_constraint_layout)
     ConstraintLayout imageTypeConstraintLayout;
 
+
     public ErDetailViewHolder(@NonNull View itemView, Context ctx) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.context = ctx;
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(expenseReportDTO != null){
+                    Intent i = new Intent(context, ErDetailActivity.class);
+                    i.putExtra("er image", expenseReportDTO.getImageID());
+                    i.putExtra("er price", expenseReportDTO.getPrice());
+                    i.putExtra("er vat", expenseReportDTO.getVat());
+                    i.putExtra("er place", expenseReportDTO.getAddress());
+                    i.putExtra("er type", expenseReportDTO.getType());
+                    i.putExtra("er status", expenseReportDTO.getStatus());
+                    context.startActivity(i);
+                }
+            }
+        });
     }
 
     public void bind(ExpenseReportDTO er){
         //erImage.setImageDrawable( R.drawable.logo_er_scan);
+        this.expenseReportDTO = er;
         String image_path = Constants.loacl_URL + "images/" + er.getImageID();
         int typePosition = erTypesListManager.getInstance().getErType(er.getType());
         int typeDrawable = erTypesListManager.getInstance().getErTypes().get(typePosition).getId_drawable();

@@ -26,18 +26,18 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
         <activity
+            android:name=".ui.user_history_er.ErDetailActivity"/>
+        <activity
             android:name=".ui.AppDescriptionPager"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ui.expense_reports.ChooseErTypeActivity"
             android:label="@string/choose_er_type_toolbar_title"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.user_account.UpdateUserPasswordActivity" />
         <activity
-            android:name=".ui.user_history_er.ErDetail"
+            android:name=".ui.user_history_er.ErHistoryListActivity"
             android:label="Expense detail" />
 
         <meta-data
@@ -48,13 +48,12 @@
             android:name="com.google.android.maps"
             android:required="true" /> <!-- Activities -->
         <activity
-            android:name=".ui.user_history_er.HistoryMapUser"
+            android:name=".ui.user_history_er.UserHistoryMapActivity"
             android:label="@string/title_activity_history_map_user" />
         <activity
             android:name=".ui.expense_reports.ErFormActivity"
             android:label="New expense report form" />
-        <activity
-            android:name=".SplashScreenActivity">
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

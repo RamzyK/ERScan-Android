@@ -17,7 +17,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.ramzy.er_scan.R;
 import com.example.ramzy.er_scan.dto.ExpenseReportDTO;
@@ -45,7 +44,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
+public class UserHistoryMapActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
     private int FINE_LOCATION_PERMISSION_CODE = 1;
 
     private GoogleMap mMap;
@@ -60,7 +59,7 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
 
     @OnClick(R.id.switch_to_list_display)
     public void listDisplay(){
-        Intent intent = new Intent(this, ErDetail.class);
+        Intent intent = new Intent(this, ErHistoryListActivity.class);
         intent.putExtra("er_list", erL_list);
         startActivity(intent);
     }
@@ -97,7 +96,7 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(HistoryMapUser.this,
+                                ActivityCompat.requestPermissions(UserHistoryMapActivity.this,
                                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                                                 Manifest.permission.ACCESS_COARSE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
                             }
@@ -111,7 +110,7 @@ public class HistoryMapUser extends FragmentActivity implements OnMapReadyCallba
                         })
                         .create().show();
             } else {
-                ActivityCompat.requestPermissions(HistoryMapUser.this,
+                ActivityCompat.requestPermissions(UserHistoryMapActivity.this,
                         new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
 
             }

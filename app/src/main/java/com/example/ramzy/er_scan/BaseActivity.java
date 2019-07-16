@@ -25,7 +25,7 @@ import com.example.ramzy.er_scan.ui.bugs.BugReportingActivity;
 import com.example.ramzy.er_scan.ui.expense_reports.ChooseErTypeActivity;
 import com.example.ramzy.er_scan.ui.home.HomeActivity;
 import com.example.ramzy.er_scan.ui.user_account.AccountParamsActivity;
-import com.example.ramzy.er_scan.ui.user_history_er.HistoryMapUser;
+import com.example.ramzy.er_scan.ui.user_history_er.UserHistoryMapActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -125,7 +125,7 @@ public class BaseActivity extends AppCompatActivity
             startActivity(i);
             
         } else if (id == R.id.er_history) {
-            Intent i = new Intent(BaseActivity.this, HistoryMapUser.class);
+            Intent i = new Intent(BaseActivity.this, UserHistoryMapActivity.class);
             startActivity(i);
             
         } else if (id == R.id.bug_reporting) {
